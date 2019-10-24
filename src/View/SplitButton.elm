@@ -1,6 +1,6 @@
 module View.SplitButton exposing (Config, view, viewOutline)
 
-import FeatherIcons as Icon
+import FeatherIcons as Icon exposing (Icon)
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Html.Events as Event
@@ -11,6 +11,7 @@ type alias Config msg =
     { onClickLeft : msg
     , leftText : String
     , onClickRight : msg
+    , rightIcon : Icon
     , attrs : List (Html.Attribute msg)
     }
 
@@ -49,6 +50,6 @@ viewBase node cfg =
                 [ Event.onClick cfg.onClickRight
                 , Attr.class "rounded-right"
                 ]
-                [ Icon.chevronDown |> Icon.withSize 18 |> Icon.toHtml [] ]
+                [ cfg.rightIcon |> Icon.withSize 18 |> Icon.toHtml [] ]
             ]
         ]

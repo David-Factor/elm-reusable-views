@@ -1,10 +1,12 @@
 module Main exposing (main)
 
 import Browser
+import FeatherIcons as Icon
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Html.Events as Event
 import View.Button as Button
+import View.DropDown as DropDown
 import View.SplitButton as SplitButton
 
 
@@ -27,12 +29,16 @@ main =
 
 
 type alias Model =
-    { count : Int }
+    { count : Int
+    , dropDown : DropDown.State
+    }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { count = 0 }
+    ( { count = 0
+      , dropDown = DropDown.init
+      }
     , Cmd.none
     )
 
@@ -44,6 +50,7 @@ init _ =
 type Msg
     = Increment
     | Reset
+    | UpdateDropDown DropDown.State
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -56,6 +63,9 @@ update msg model =
 
         Reset ->
             ( { model | count = 0 }, Cmd.none )
+
+        UpdateDropDown state ->
+            ( { model | dropDown = state }, Cmd.none )
 
 
 
@@ -70,6 +80,7 @@ view model =
         , viewBasic
         , viewSimpleButtons
         , viewButtonGroup
+        , viewDropDown model.dropDown
         ]
 
 
@@ -115,17 +126,25 @@ viewButtonGroup =
             { onClickLeft = Reset
             , onClickRight = Increment
             , leftText = "Hello"
+            , rightIcon = Icon.anchor
             , attrs = [ Attr.class "mr1" ]
             }
         , SplitButton.viewOutline
             { onClickLeft = Reset
             , onClickRight = Increment
             , leftText = "Hello"
+            , rightIcon = Icon.aperture
             , attrs = []
             }
         ]
 
 
+viewDropDown : DropDown.State -> Html Msg
+viewDropDown state =
+    viewSection "Drop down" <|
+        [ DropDown.view UpdateDropDown state ]
+
+
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    Sub.map UpdateDropDown DropDown.close
