@@ -1,18 +1,23 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-  <link href="https://unpkg.com/ace-css/css/ace.min.css" rel="stylesheet">
+        <title>Reusable views in elm</title>
+        <meta name="description" content="Reusable views in elm">
+        <meta name="author" content="SitePoint">
+        <link href="https://unpkg.com/ace-css/css/ace.min.css" rel="stylesheet">
+        <script src="/built/elm.js"></script>
+    </head>
 
+    <body>
+        <div id="elm"></div>
+        <script>
+            var app = Elm.Main.init({
+                node: document.getElementById('elm')
+            });
+        </script>
 
-</head>
-
-<body>
-  <script src="built/elm.js"></script>
-</body>
+    </body>
 </html>
