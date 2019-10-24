@@ -50,7 +50,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            ( { model | count = model.count + 1 }, Cmd.none )
+            ( { model | count = model.count + 1 }
+            , Cmd.none
+            )
 
         Reset ->
             ( { model | count = 0 }, Cmd.none )
@@ -64,18 +66,32 @@ view : Model -> Html Msg
 view model =
     Html.main_
         []
-        [ Html.section [] [ Html.text << String.fromInt <| model.count ]
+        [ viewSection "State" <| [ Html.text << String.fromInt <| model.count ]
+        , viewBasic
         , viewSimpleButtons
         , viewButtonGroup
         ]
 
 
-viewSimpleButtons : Html Msg
-viewSimpleButtons =
+viewSection : String -> List (Html msg) -> Html msg
+viewSection title content =
     Html.section
         [ Attr.class "border border-silver rounded m2 p2" ]
-        [ Html.h2 [] [ Html.text "Simple buttons" ]
-        , Button.view
+        (Html.h2 [] [ Html.text title ] :: content)
+
+
+viewBasic : Html Msg
+viewBasic =
+    viewSection "Basic button" <|
+        [ Button.basic [ Attr.class "mr1" ] [ Html.text "I am" ]
+        , Button.basic [] [ Html.text "Basic" ]
+        ]
+
+
+viewSimpleButtons : Html Msg
+viewSimpleButtons =
+    viewSection "Simple buttons" <|
+        [ Button.view
             [ Event.onClick Increment
             , Attr.class "mr1 bg-silver"
             ]
@@ -94,10 +110,8 @@ viewSimpleButtons =
 
 viewButtonGroup : Html Msg
 viewButtonGroup =
-    Html.section
-        [ Attr.class "border border-silver rounded m2 p2" ]
-        [ Html.h2 [] [ Html.text "Button groups" ]
-        , SplitButton.view
+    viewSection "Button groups" <|
+        [ SplitButton.view
             { onClickLeft = Reset
             , onClickRight = Increment
             , leftText = "Hello"

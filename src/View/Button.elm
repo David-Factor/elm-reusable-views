@@ -1,7 +1,11 @@
-module View.Button exposing (primary, secondary, view)
+module View.Button exposing (basic, primary, secondary, view)
 
 import Html exposing (Html)
 import Html.Attributes as Attr
+
+
+basic =
+    Html.button
 
 
 view : List (Html.Attribute msg) -> List (Html msg) -> Html msg
